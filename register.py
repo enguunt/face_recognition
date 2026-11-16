@@ -4,7 +4,7 @@ import mediapipe as mp
 import os
 import time
 
-# Хүний нэр авах
+# Ner avah
 name = input("Нэрээ оруулна уу: ").strip()
 
 if not name or name in (".", "..") or "/" in name or "\\" in name:
@@ -14,7 +14,7 @@ if not name or name in (".", "..") or "/" in name or "\\" in name:
 folder = os.path.join("dataset", name)
 os.makedirs(folder, exist_ok=True)
 
-# Нүүр илрүүлэгч
+# Nuur ileruulgch
 detector = mp.solutions.face_detection.FaceDetection(
     model_selection=0,
     min_detection_confidence=0.6
@@ -36,7 +36,7 @@ capture_started = None
 next_capture_time = 0
 message = "Press SPACE to start"
 
-# Зургийн нэр давхцахаас хамгаалах
+# zurgiin ner davhtshaas hamgaalh
 def get_image_path():
     number = 1
 
@@ -50,7 +50,7 @@ def get_image_path():
         number += 1
 
 
-# Зургийн чанар шалгах
+# Zurgiin chanar hamgaalh
 def check_quality(image):
     if image.size == 0:
         return False, "Invalid image"
@@ -72,26 +72,26 @@ def check_quality(image):
 cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
 
 if not cap.isOpened():
-    print("Камер нээгдсэнгүй!")
+    print("camera neegdsngu!")
     detector.close()
     raise SystemExit
 
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
-print("\nБүртгэл эхэллээ!")
-print("SPACE = Зураг авч эхлэх")
-print("N = Үе шат алгасах")
-print("Q = Гарах")
+print("\nburtgel ehellee!")
+print("SPACE = Zurag avch ehleh")
+print("N = uy saht algsh")
+print("Q = garah")
 
 while stage_index < len(stages):
     ret, frame = cap.read()
 
     if not ret:
-        print("Камерын дүрс авч чадсангүй!")
+        print("camera iin durs avch cdsngui!")
         break
 
-    # Толин тусгал
+    # tolin tusgal
     frame = cv2.flip(frame, 1)
 
     height, width = frame.shape[:2]
@@ -113,7 +113,7 @@ while stage_index < len(stages):
             if x2 > x1 and y2 > y1:
                 faces.append((x1, y1, x2, y2))
 
-    # Дэлгэц дээр мэдээлэл харуулах
+    # delgts deer medeelel haruulah
     cv2.putText(
         frame, stages[stage_index], (15, 35),
         cv2.FONT_HERSHEY_SIMPLEX, 0.65,
@@ -174,7 +174,7 @@ while stage_index < len(stages):
     else:
         message = "No face detected"
 
-    # Автоматаар зураг авах
+    # auto mataar zurag avah
     if capture_started is not None:
         now = time.time()
 
@@ -212,7 +212,7 @@ while stage_index < len(stages):
                 next_capture_time = now + 0.3
 
             if stage_saved >= photos_per_stage:
-                print(f"{stages[stage_index]} дууслаа!")
+                print(f"{stages[stage_index]} duuslaa!")
 
                 stage_index += 1
                 stage_saved = 0
@@ -220,7 +220,7 @@ while stage_index < len(stages):
 
                 if stage_index < len(stages):
                     message = "Press SPACE for next stage"
-                    print(f"Дараагийн байрлал: {stages[stage_index]}")
+                    print(f"Daraagiin bairlal: {stages[stage_index]}")
 
     cv2.imshow("Face Registration", frame)
 
@@ -231,12 +231,12 @@ while stage_index < len(stages):
             capture_started = time.time() + 3
             next_capture_time = capture_started
             message = "Get ready!"
-            print("3 секундын дараа зураг авч эхэлнэ!")
+            print("3 second iin daraa zurag avch ehellee!")
         else:
-            print("Нэг тод нүүр камераар харуулна уу!")
+            print("neg tod nuur camera aar haruulnu!")
 
     elif key == ord("n") and capture_started is None:
-        print(f"{stages[stage_index]} алгаслаа!")
+        print(f"{stages[stage_index]} algaslaa!")
         stage_index += 1
         stage_saved = 0
         message = "Press SPACE for next stage"
@@ -248,4 +248,4 @@ cap.release()
 detector.close()
 cv2.destroyAllWindows()
 
-print(f"\n{name}: нийт {saved_total} шинэ зураг хадгаллаа!")
+print(f"\n{name}: niit {saved_total} shine zurag hadgallaa!")
