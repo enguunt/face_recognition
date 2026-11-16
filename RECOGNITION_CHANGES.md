@@ -1,47 +1,47 @@
-# Бүртгэл, танилтын шинэчлэл — 2026-11-17
+# Register bolon recognize deer yu oorchilsn be — 2026-11-17
 
-Өмнөх латин бичигт шилжүүлсэн хувилбар (7f0f107)-аас хойших өөрчлөлтүүд.
+Omnoh latin usgeer bichsen huvilbar (7f0f107)-aas hoish hiisen oorchlolt.
 
 ## register.py
 
-- Дэлгэц дээр заавар, бичиг зурахаас өмнө цэвэр кадрыг хуулдаг болсон.
-- Нүүрний зургийг тэр цэвэр кадраас тасалж хадгална. Ингэснээр хадгалсан зурагт дэлгэцийн бичиг орохгүй.
-- Зураг авах 3 секундын бэлтгэл, байрлал бүрийн 3 зураг, чанарын шалгалтыг хэвээр хадгалсан.
+- Delgets deer zaavar, bichig zurahaas omno tsever frame-iig huuldag bolgosn.
+- Nuurnii zurgiig ter tsever frame-aas tasalj hadgalna. Ingeseer hadgalsan zurag deer delgetsiin bichig davhar orohgui.
+- Zurag avah 3 second-iin beltgel, bairlal bur deer 3 zurag avah bolon chanariin shalgaltiig heveer uldeesen.
 
 ## recognize.py
 
-- Нүүр бүрийг тусдаа ID, нэрийн төлөвтэй дагана. Хажуугаас өөр хүн орж ирэхэд өмнөх хүний танилтыг бүхэлд нь цэвэрлэхгүй.
-- Шинэ нүүр таних ажлыг эхлүүлэх доод завсар 0.7-оос 0.15 секунд болсон. Энэ нь загвар өөрөө 0.15 секундэд бодно гэсэн баталгаа биш.
-- Танигдсан нүүрийг дахин дахин DeepFace-аар тооцохгүй, кадр бүрд нүүрний хүрээг дагана. Энэ нь давтан тооцооллыг багасгана.
-- Бүртгэлийн зургуудыг програм эхлэхэд нэг удаа вектор болгодог хэвээр.
-- Жижиг (90px-ээс бага) эсвэл бүдэг (Laplacian variance < 35) нүүрийг Unknown гэж үзнэ.
-- Dataset замыг recognize.py-ийн байрлалтай харьцуулж тогтоодог болсон.
-- Камер таньсны дараа автоматаар хаагдахгүй. Камерын цонх дээр Q дарж гарна.
+- Nuur buriig tusdaa ID, neriiin tolovtei dagadag bolgosn. Hajuugaas oor hun orj irhed omnoh hunii tanilt dahin ehlehgui.
+- Shine nuur tanih ajil ehluuleh zavsriig 0.7-oos 0.15 second bolgosn. Gehdee model ooroo 0.15 second dotor bodno gesen ug bish.
+- Neg tanigdsan nuuriig dahin dahin DeepFace-aar bodohgui, frame bur deer hureeg ni dagana. Ingeseer davtan tootsoolol bagasna.
+- Burtgeliin zurguudiig program ehlehed neg udaa vector bolgodog heveer.
+- Jijig (90px-ees baga) esvel budeg (Laplacian variance < 35) nuuriig Unknown gej uzne.
+- Dataset-iin zamiig recognize.py baigaa havtastai ni holboj togtoodog bolgosn.
+- Huniig tanisnii daraa camera shuud haagdahgui. Camera-iin tsonh deer Q darj garna.
 
-## recognition_policy.py — шинэ, заавал хамт байх файл
+## recognition_policy.py — shine file, zaaval hamt baih ystoi
 
-- Нэг хүний хамгийн ойр 3 хүртэлх зургийн cosine distance-ийн дунджийг ашиглана.
-- Distance босго 0.36 хэвээр. Хамгийн ойр хоёр нэрийн онооны зөрүү 0.08-аас бага бол Unknown болгоно.
-- Нэг нэртэй дараалсан хамгийн багадаа 2 танилт, тэдгээрийн хооронд нийт 0.3 секунд өнгөрсөн үед нэрийг баталгаажуулна. Загвар удаан байвал бодит хугацаа урт байна.
-- Хувь, хугацааны бичиг хассан: шалгах үед Searching..., танигдвал зөвхөн нэр, тохирохгүй бол Unknown харагдана.
-- Баталгаажсан нүүр ногоон, шалгаж байгаа нүүр шар, Unknown нүүр улаан хүрээтэй.
-- Баталгаажсан нэрийг тухайн нүүрний track үргэлжилж байгаа хугацаанд хадгална. Нүүр алга болох эсвэл хүрээнүүд давхцаж ялгахад эргэлзээтэй бол дахин танина.
-- Нэг нэрийг хоёр харагдаж байгаа нүүрэнд зэрэг баталгаажуулахгүй. Нүүрний хүрээг зөөлрүүлж хөдөлгөөний чичиргээг багасгасан.
-- Кадраас алга болсон нүүрний хоцорсон хариуг шинэ нүүрэнд оноохгүй.
+- Neg hunii hamgiin oir 3 hurtelh zurgiin cosine distance-iin dundjiig ashiglana.
+- Distance bosgo 0.36 heveer. Hamgiin oir 2 neriin onoonii zoruu 0.08-aas baga bol Unknown bolgono.
+- Neg nertei daraalsan hamgiin bagadaa 2 tanilt, niit 0.3 second ongorson uyd neriig batalgaajuulna. Model udaan bol bodit hugatsaa urt baina.
+- Huvi, second-iin bichgiig hasaasn: shalgaj baih uyd Searching..., tanigdsan bol zuvhun ner, taarahgui bol Unknown gej haruulna.
+- Tanigdsan nuur nogoon, shalgaj bgaa nuur shar, Unknown nuur ulaan hureetei.
+- Tanigdsan neriig tuhain nuurnii track urgeljilj bgaa hugatsaand hadgalna. Nuur alga boloh esvel hureenuud davhtsaj yalgahad ergelzeetei bol dahin tanina.
+- Neg neriig 2 haragdaj bgaa nuur deer zereg batalgaajuulahgui. Hureenii hodolgooniig zoolruulj chichirgeeg bagasgasn.
+- Frame-aas alga bolson nuurnii hotsorson hariug shine nuur deer onoohgui.
 
-## Ажиллуулах
+## Yaj ajilluulah ve
 
-Гурван Python файлыг нэг хавтаст байлгана. Одоо ашиглаж байгаа Python орчиндоо Terminal-аас:
+Ene 3 Python file-iig neg havtast bailgana. Odoo ashiglaj bgaa Python orchindoo Terminal deer:
 
 ```bash
 python register.py
 python recognize.py
 ```
 
-`>>>` Python prompt дотор эдгээр командыг бичихгүй. Шинэ GUI сан шаардахгүй; customtkinter энэ шинэчлэлд ороогүй.
+`>>>` Python prompt dotor ene command-uudiig bichihgui. Shine GUI san shaardahgui; customtkinter ene shinechlelted oroogui.
 
-## Шалгалт ба хязгаар
+## Yu shalgasn, yu anhaarah ve
 
-Python синтакс, хурдан баталгаажуулалт, хоёр дахь хүн орж ирэхэд нэр хадгалах, давхар нэр, хуучирсан хариу болон Unknown-ийн логикийг хиймэл өгөгдлөөр шалгасан. Бодит камер дээр хурд, танилтын нарийвчлалыг хэмжээгүй.
+Python syntax, hurdan batalgaajuulalt, 2 dahi hun orj irhed omnoh neriig hadgalah, davhar ner, hotsorson hariu bolon Unknown-iin logikiig hiimel ogogdloor shalgasn. Bodit camera deer hurd, taniltiin nariivchlal hemjeegui.
 
-Нэрийг track дээр хадгалах нь түр зуурын хэлбэлзлийг арилгана, гэхдээ анхны буруу танилтыг мөн хадгалж болно. Хүрээ дагах нь хүний хэн болохыг дахин баталж байгаа хэрэг биш. Нэг л Carlo харагдах дүрэм нь анх танигдсан хүн үнэхээр Carlo гэдгийг батлахгүй; төстэй болон бүртгэлгүй хүмүүсээр бодитоор турших шаардлагатай.
+Neriig track deer hadgalah ni tur zuuryn savlagaag arilgana. Gehdee anh buruu tanisan bol ter neriig bas hadgalj bolno. Huree dagaj bgaa ni ter huniig dahin tanij batalgaajuulj bgaa gesen ug bish. Neg l Carlo haragdah durem ni anh tanigdsan hun yag Carlo mon gedgiig batalahgui. Tostei bolon burtgelgui humuuseer boditoor turshih heregtei.
