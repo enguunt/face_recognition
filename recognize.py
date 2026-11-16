@@ -7,11 +7,12 @@ import mediapipe as mp
 
 from deepface import DeepFace
 from concurrent.futures import ThreadPoolExecutor
+from recognition_policy import match_identity, MultiFaceTracker
 
-DATABASE = "dataset"
+DATABASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dataset")
 MODEL = "Facenet"
-LIMIT = 0.36
-INTERVAL = 0.7
+LIMIT = 0.36  # Starting point; calibrate with genuine and unknown people.
+INTERVAL = 0.15
 
 # Zurgiin vektoruudiig sanah
 known_faces = {}
@@ -69,6 +70,11 @@ print("burtgeltei humuus:", list(known_faces.keys()))
 
 # Nuur tanih punkts
 def recognize_face(face_image):
+    if min(face_image.shape[:2]) < 90:
+        return "Unknown"
+    gray = cv2.cvtColor(face_image, cv2.COLOR_BGR2GRAY)
+    if cv2.Laplacian(gray, cv2.CV_64F).var() < 35:
+        return "Unknown"
     try:
         vector = get_embedding(face_image)
     except Exception as e:
@@ -78,22 +84,7 @@ def recognize_face(face_image):
     if vector is None:
         return "Unknown"
 
-    best_name = "Unknown"
-    best_score = float("inf")
-
-    for name, vectors in known_faces.items():
-        # Cosine distance
-        distances = 1 - (vectors @ vector)
-        distances = np.sort(distances)
-
-        count = min(3, len(distances))
-        score = float(np.mean(distances[:count]))
-
-        if score < LIMIT and score < best_score:
-            best_score = score
-            best_name = name
-
-    return best_name
+    return match_identity(vector, known_faces, threshold=LIMIT)
 
 
 # Neg zurag dotorh buh huniig tanih
@@ -126,34 +117,9 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 executor = ThreadPoolExecutor(max_workers=1)
 future = None
 
-last_results = []
 last_check = 0
-
-def box_center(box):
-    x1, y1, x2, y2 = box
-    return ((x1 + x2) / 2, (y1 + y2) / 2)
-
-
-def find_name(box, results):
-    cx, cy = box_center(box)
-
-    best_distance = float("inf")
-    best_name = "Searching..."
-
-    for old_box, name in results:
-        ox, oy = box_center(old_box)
-
-        distance = ((cx - ox) ** 2 + (cy - oy) ** 2) ** 0.5
-
-        if distance < best_distance:
-            best_distance = distance
-            best_name = name
-
-    # huuchin bairllaas het hol bol neriig ashiglhgu
-    if best_distance > 80:
-        return "Searching..."
-
-    return best_name
+tracker = MultiFaceTracker()
+submitted_at = 0
 
 
 print("\ncamera ajilllaj bn. Q = garah")
@@ -188,27 +154,23 @@ try:
                 if x2 > x1 and y2 > y1:
                     faces.append((x1, y1, x2, y2))
 
-        # duussan taniltyn ur dung avah
+        now = time.monotonic()
+        visible = tracker.update(faces, now)
         if future is not None and future.done():
             try:
-                last_results = future.result()
+                for name in tracker.apply(future.result(), submitted_at, now):
+                    print(f"Ene hun bol {name} yum baina. Q = garah")
             except Exception as e:
                 print("tanih ajilgaany aldaa:", e)
-                last_results = []
-
             future = None
 
-        now = time.time()
-
-        # omnoh tanilt duussan uyd daraagyhiig ehluulh
-        if (
-            faces
-            and future is None
-            and now - last_check >= INTERVAL
-        ):
+        if visible and future is None and now - last_check >= INTERVAL:
             face_items = []
 
-            for box in faces:
+            for person in visible:
+                if person.confirmed:
+                    continue
+                box = person.box
                 x1, y1, x2, y2 = box
 
                 padding = int((x2 - x1) * 0.15)
@@ -221,22 +183,16 @@ try:
                 crop = frame[top:bottom, left:right].copy()
 
                 if crop.size > 0:
-                    face_items.append((box, crop))
+                    face_items.append((person.id, crop))
 
             if face_items:
                 future = executor.submit(recognize_all, face_items)
                 last_check = now
+                submitted_at = now
 
-        # hun burt tusdaa dorvoljin , ner       
-        for box in faces:
-            x1, y1, x2, y2 = box
-
-            name = find_name(box, last_results)
-
-            if name not in ("Unknown", "Searching..."):
-                color = (0, 255, 0)
-            else:
-                color = (0, 0, 255)
+        for person in visible:
+            x1, y1, x2, y2 = person.display_box
+            name, color = person.label()
 
             cv2.rectangle(
                 frame,

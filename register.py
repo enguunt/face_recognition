@@ -113,6 +113,9 @@ while stage_index < len(stages):
             if x2 > x1 and y2 > y1:
                 faces.append((x1, y1, x2, y2))
 
+    # Save from the clean frame before drawing instructions.
+    clean_frame = frame.copy()
+
     # delgts deer medeelel haruulah
     cv2.putText(
         frame, stages[stage_index], (15, 35),
@@ -151,7 +154,7 @@ while stage_index < len(stages):
         right = min(width, x2 + padding)
         bottom = min(height, y2 + padding)
 
-        face_image = frame[top:bottom, left:right].copy()
+        face_image = clean_frame[top:bottom, left:right].copy()
 
         quality_ok, quality_message = check_quality(face_image)
 
