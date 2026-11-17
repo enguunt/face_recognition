@@ -8,8 +8,9 @@ import mediapipe as mp
 from deepface import DeepFace
 from concurrent.futures import ThreadPoolExecutor
 from recognition_policy import match_identity, MultiFaceTracker
+from facevision_config import DATASET
 
-DATABASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dataset")
+DATABASE = str(DATASET)
 MODEL = "Facenet"
 LIMIT = 0.36  # Starting point; calibrate with genuine and unknown people.
 INTERVAL = 0.15
@@ -168,7 +169,7 @@ try:
             face_items = []
 
             for person in visible:
-                if person.confirmed:
+                if not person.needs_recognition(now):
                     continue
                 box = person.box
                 x1, y1, x2, y2 = box

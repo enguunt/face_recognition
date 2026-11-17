@@ -3,6 +3,7 @@ import cv2
 import mediapipe as mp
 import os
 import time
+from facevision_config import DATASET
 
 # Ner avah
 name = input("Нэрээ оруулна уу: ").strip()
@@ -11,7 +12,7 @@ if not name or name in (".", "..") or "/" in name or "\\" in name:
     print("Зөв нэр оруулна уу!")
     raise SystemExit
 
-folder = os.path.join("dataset", name)
+folder = str(DATASET / name)
 os.makedirs(folder, exist_ok=True)
 
 # Nuur ileruulgch

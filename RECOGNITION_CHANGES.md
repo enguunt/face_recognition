@@ -45,3 +45,35 @@ python recognize.py
 Python syntax, hurdan batalgaajuulalt, 2 dahi hun orj irhed omnoh neriig hadgalah, davhar ner, hotsorson hariu bolon Unknown-iin logikiig hiimel ogogdloor shalgasn. Bodit camera deer hurd, taniltiin nariivchlal hemjeegui.
 
 Neriig track deer hadgalah ni tur zuuryn savlagaag arilgana. Gehdee anh buruu tanisan bol ter neriig bas hadgalj bolno. Huree dagaj bgaa ni ter huniig dahin tanij batalgaajuulj bgaa gesen ug bish. Neg l Carlo haragdah durem ni anh tanigdsan hun yag Carlo mon gedgiig batalahgui. Tostei bolon burtgelgui humuuseer boditoor turshih heregtei.
+
+
+## Daraagiin shinechlelt: Minimal app, dataset bolon FPS
+
+- register.py, recognize.py, minimal app neg DATASET tohirgoo ashigladag bolson.
+- Bogino nuur tasaldliig huleeh, tanigdsan neriig haaya dahin batalgaajuulah zasvar orson.
+- Camera bolon MediaPipe ilruulelt tusdaa thread deer ajillana. UI zuvhun suuliin belen frame-iig avna.
+- LIVE-iin hajuud bodit display FPS haruulna.
+- FACEVISION.spec ni minimal app-iig model/dependency-tei ni macOS app bolgoj build hiine.
+- Omno repo-d baisan facevision.py bolon main.py-g ene shinechlelteer oorchloogui.
+
+Delgerengui tailbar: [FIXES_EXPLAINED.md](FIXES_EXPLAINED.md), [FPS_EXPLAINED.md](FPS_EXPLAINED.md).
+
+Minimal app-iig ajilluulah:
+
+```bash
+python facevision_light_minimal.py
+```
+
+Test:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Mac app build hiih:
+
+```bash
+python -m PyInstaller --noconfirm FACEVISION.spec
+```
+
+Build-iin omno Facenet-iig neg udaa ajilluulj ~/.deepface/weights/facenet_weights.onnx model-iig belen bolgono. .app, venv, dataset, model-iin tom file-uudiig GitHub ruu oruulaagui.

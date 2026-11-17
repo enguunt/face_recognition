@@ -69,12 +69,20 @@ class PersonTrack:
         self.name = 'Searching...'
         self.confirmed = None
         self.result_time = None
+        self.mismatches = 0
+        self.visible = True
+        self.last_seen = None
 
     def clear(self):
         self.confirmation.reset()
         self.name = 'Searching...'
         self.confirmed = None
         self.result_time = None
+        self.mismatches = 0
+
+    def needs_recognition(self, now):
+        return self.visible and (not self.confirmed or self.result_time is None
+                                 or now - self.result_time >= 1.5)
 
     def label(self):
         if self.confirmed:
@@ -90,7 +98,8 @@ class MultiFaceTracker:
     Overlap associates detections, not identity. Ambiguous crossings start new
     tracks rather than transferring a confirmed name to another face.
     """
-    def __init__(self):
+    def __init__(self, missing_grace=0.3):
+        self.missing_grace = missing_grace
         self.tracks = {}
         self.next_id = 0
 
@@ -98,14 +107,16 @@ class MultiFaceTracker:
         self.tracks.clear()
 
     def update(self, boxes, now):
-        candidates = []
-        for box in boxes:
-            candidates.append([t for t in self.tracks.values() if boxes_match(t.box, box)])
+        # Brief detection gaps keep identity, but absent faces are not drawn.
+        self.tracks = {i: t for i,t in self.tracks.items()
+                       if t.visible or now - t.last_seen <= self.missing_grace}
+        candidates = [[t for t in self.tracks.values() if boxes_match(t.box, box)]
+                      for box in boxes]
         usage = {}
         for matches in candidates:
             for t in matches:
                 usage[t.id] = usage.get(t.id, 0) + 1
-        visible = {}
+        retained = {}
         ordered = []
         for box, matches in zip(boxes, candidates):
             if len(matches) == 1 and usage[matches[0].id] == 1:
@@ -117,9 +128,17 @@ class MultiFaceTracker:
                 self.next_id += 1
             if not t.confirmed and t.result_time is not None and now - t.result_time > t.confirmation.max_gap:
                 t.clear()
-            visible[t.id] = t
+            t.last_seen = now
+            t.visible = True
+            retained[t.id] = t
             ordered.append(t)
-        self.tracks = visible
+        for identity,t in self.tracks.items():
+            # Ambiguous overlap invalidates a track; an empty frame gets grace.
+            if identity not in retained and identity not in usage:
+                t.visible = False
+                if now - t.last_seen <= self.missing_grace:
+                    retained[identity] = t
+        self.tracks = retained
         return ordered
 
     def apply(self, answers, captured_at, now):
@@ -131,13 +150,22 @@ class MultiFaceTracker:
         confirmed = []
         for identity, name in answers:
             t = self.tracks.get(identity)
-            if t is None or now - captured_at > t.confirmation.max_gap:
-                continue
-            # A confirmed label is latched until this visible track is lost.
-            # Brief blur / Unknown must not restart recognition.
-            if t.confirmed:
+            if t is None or not t.visible or now - captured_at > t.confirmation.max_gap:
                 continue
             if t.result_time is not None and captured_at <= t.result_time:
+                continue
+            if t.confirmed:
+                t.result_time = captured_at
+                if name == t.confirmed:
+                    t.mismatches = 0
+                else:
+                    t.mismatches += 1
+                    # One blurry observation never removes a confirmed label.
+                    if t.mismatches >= 3:
+                        owners.pop(t.confirmed, None)
+                        t.clear()
+                        t.name = 'Unknown'
+                        t.result_time = captured_at
                 continue
             if name not in ('Unknown', 'Searching...'):
                 if name in owners and owners[name] != identity:
