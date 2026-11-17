@@ -4,11 +4,12 @@ import mediapipe as mp
 import os
 import time
 from facevision_config import DATASET
+from student_manager import valid_name
 
 # Ner avah
 name = input("Нэрээ оруулна уу: ").strip()
 
-if not name or name in (".", "..") or "/" in name or "\\" in name:
+if not valid_name(name):
     print("Зөв нэр оруулна уу!")
     raise SystemExit
 
@@ -70,7 +71,7 @@ def check_quality(image):
     return True, "Good quality"
 
 
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW if os.name == "nt" else cv2.CAP_ANY)
 
 if not cap.isOpened():
     print("camera neegdsngu!")
@@ -196,7 +197,15 @@ while stage_index < len(stages):
             if len(faces) == 1 and quality_ok:
                 image_path = get_image_path()
 
-                if cv2.imwrite(image_path, face_image):
+                # cv2.imwrite() may fail for Cyrillic paths on Windows.
+                try:
+                    encoded_ok, encoded = cv2.imencode('.jpg', face_image)
+                    if encoded_ok:
+                        encoded.tofile(image_path)
+                    saved = bool(encoded_ok)
+                except (OSError, cv2.error):
+                    saved = False
+                if saved:
                     stage_saved += 1
                     saved_total += 1
 
