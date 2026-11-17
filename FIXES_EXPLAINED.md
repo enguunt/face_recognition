@@ -57,3 +57,19 @@ recognize.py-g oor repo ruu huulah bol recognition_policy.py bolon shine facevis
 
 
 FPS-iin daraagiin zasvar bolon hemjiltiin tailbar: [FPS_EXPLAINED.md](FPS_EXPLAINED.md).
+
+## Shine: irts bolon app dotorh hunii burtgel ustgah
+
+Minimal app-iin deed tald Irts bolon Burtgeltei humuus gesen 2 tovch nemsen. Taniltiin model/bosgiig oorchloogui.
+
+Irts: nuurnii ner batalgaajsan uyd ner, ognoo, irsen tsagiig Ulaanbaatar-iin tsagiin buseer hadgalna. Neg hun neg odor neg l irts-tei; anhnii irsen tsag ni heveer baina. App dahin neesen ch database-iin UNIQUE/PRIMARY KEY durem davhar irts uusgehgui. Daraagiin odor shine mur uusne. Ene ni orson/garsan buh hodolgoon, hotsrolt esvel ajillasan tsagiig tootsoh sistem bish; odor buriin anhnii irsen tsag.
+
+Irts tovch: onoodriin tuuh default. Zovhon onoodor-iig untraaval buh tuuh harna. Shinechleh tovch darj shine mur-uudiig harna. CSV hadgalah tovch haragdaj bgaa shuugdsen muriig export hiine. CSV ni ner, date, HH:MM:SS, Present aguulna.
+
+Hadgalalt: Documents/FACEVISION/attendance.sqlite3. Zurag dotor tsag bichehgui, tusdaa SQLite database ashiglana. Record hiih ni tanigdsan hun/odor burd neg udaa; frame bur deer database bichihgui. DB aldaa garval irts amjilttai gej nuuhgui, status deer aldaa haruulj daraagiin hariund dahin oroldono.
+
+Burtgeltei humuus: folder buriin ner, zurgiin toog jagsaana. Hun songoj Ustgah darna, batalgaajuulah asuult garna. Tanih dataset-aas folder-iig gargaj Documents/FACEVISION/deleted_people dotor davtagdashgui dugaartai backup-d zoolgono. Permanent erase bish, sergeej boloh ustgalt. Ustgasan tab-aas hun songoj Sergeeh darna. Ijil nertei shine burtgel baisan bol darj bichihgui, aldaa haruulna.
+
+Ustgah/sergeeh uyd model-iin known vector cache, tracker, background session, zurag avah timer-iig tseverlej detect gorim ruu shiljine. Ingeseer huuchin worker-iin hariu ustgasan huniig butsaaj taniltad oruulahgui. Nuur tanih-g dahin songohod odoo bgaa dataset-aas zov burtgel achaalna. Irtsiin tuuh ustgah uildeld hamaarahgui, heveer uldene; tsonh/confirmation deer ene tailbar haragdana.
+
+Shine source file app_data.py: AttendanceStore, EnrollmentStore. SQLite, zoneinfo, csv zereg Python standard san ashiglasan; shine pip san suulgaagui. tests/test_app_data.py-d 11 shine shalgalt nemsen, omnoh test-tei ni niilj local 34 test tentsen. Bodit zurgiig ustgaagui, bodit irtsiin turshiltiin mur nemeegui. FACEVISION.app shineer build hiigdsen, model/import shalgalt tentsen. GitHub ruu ene oorchlolt push hiigeegui.

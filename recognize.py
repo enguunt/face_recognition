@@ -104,7 +104,7 @@ detector = mp.solutions.face_detection.FaceDetection(
     min_detection_confidence=0.6
 )
 
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW if os.name == "nt" else cv2.CAP_ANY)
+cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
 
 if not cap.isOpened():
     print("camera neegdh!")

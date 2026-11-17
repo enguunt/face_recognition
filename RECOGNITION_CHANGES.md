@@ -1,84 +1,23 @@
-# Register bolon recognize deer yu oorchilsn be — 2026-11-17
+# Collab main-iig Carlo-iin local huvilbartai taaruulsan
 
-Omnoh latin usgeer bichsen huvilbar (7f0f107)-aas hoish hiisen oorchlolt.
+## Yag yu hiisen be?
 
-## register.py
+Source ni Carlo-iin odoogiin /Users/carlo_093/python/FaceRecognitionSystem workspace. Commit hiigdeegui irts/ustgah shinechleltuud, shine app_data.py, test-uud bolon delgerengui guide-iig hamt avsan. Local-iin 21 file-iig content hash-aar shalgaj ijil huulsan.
 
-- Delgets deer zaavar, bichig zurahaas omno tsever frame-iig huuldag bolgosn.
-- Nuurnii zurgiig ter tsever frame-aas tasalj hadgalna. Ingeseer hadgalsan zurag deer delgetsiin bichig davhar orohgui.
-- Zurag avah 3 second-iin beltgel, bairlal bur deer 3 zurag avah bolon chanariin shalgaltiig heveer uldeesen.
+facevision.py ni import hiigeed minimal App-iig ehluuleh wrapper. README bolon ene changelog ni repo ashiglah tailbar; busad programiin code local snapshot-tai ijil.
 
-## recognize.py
+## Hasagdsan suuliin collab nemelt-uud
 
-- Nuur buriig tusdaa ID, neriiin tolovtei dagadag bolgosn. Hajuugaas oor hun orj irhed omnoh hunii tanilt dahin ehlehgui.
-- Shine nuur tanih ajil ehluuleh zavsriig 0.7-oos 0.15 second bolgosn. Gehdee model ooroo 0.15 second dotor bodno gesen ug bish.
-- Neg tanigdsan nuuriig dahin dahin DeepFace-aar bodohgui, frame bur deer hureeg ni dagana. Ingeseer davtan tootsoolol bagasna.
-- Burtgeliin zurguudiig program ehlehed neg udaa vector bolgodog heveer.
-- Jijig (90px-ees baga) esvel budeg (Laplacian variance < 35) nuuriig Unknown gej uzne.
-- Dataset-iin zamiig recognize.py baigaa havtastai ni holboj togtoodog bolgosn.
-- Huniig tanisnii daraa camera shuud haagdahgui. Camera-iin tsonh deer Q darj garna.
+attendance_excel.py, student_manager.py, embedding_cache.py, camera_demo.py, Windows start/build script-uud, tedentei holbootoi test, suulgah tailbar bolon requirements file ni local huvilbart baihgui tul main-aas hasagdsan. Omnoh file-uud backup branch deer bugd heveeree baigaa.
 
-## recognition_policy.py — shine file, zaaval hamt baih ystoi
+## Shine local feature-uud
 
-- Neg hunii hamgiin oir 3 hurtelh zurgiin cosine distance-iin dundjiig ashiglana.
-- Distance bosgo 0.36 heveer. Hamgiin oir 2 neriin onoonii zoruu 0.08-aas baga bol Unknown bolgono.
-- Neg nertei daraalsan hamgiin bagadaa 2 tanilt, niit 0.3 second ongorson uyd neriig batalgaajuulna. Model udaan bol bodit hugatsaa urt baina.
-- Huvi, second-iin bichgiig hasaasn: shalgaj baih uyd Searching..., tanigdsan bol zuvhun ner, taarahgui bol Unknown gej haruulna.
-- Tanigdsan nuur nogoon, shalgaj bgaa nuur shar, Unknown nuur ulaan hureetei.
-- Tanigdsan neriig tuhain nuurnii track urgeljilj bgaa hugatsaand hadgalna. Nuur alga boloh esvel hureenuud davhtsaj yalgahad ergelzeetei bol dahin tanina.
-- Neg neriig 2 haragdaj bgaa nuur deer zereg batalgaajuulahgui. Hureenii hodolgooniig zoolruulj chichirgeeg bagasgasn.
-- Frame-aas alga bolson nuurnii hotsorson hariug shine nuur deer onoohgui.
+Irts SQLite-d ner/odor/anhnii irsen tsagaar burtgegdene; app dotor irts harah, CSV avah, hunii burtgel ustgah/sergeeh bolomjtoi. CameraStream/FPS, minimal UI, shared dataset, tracking, periodic recheck ni local source-toi ijil.
 
-## Yaj ajilluulah ve
+Ali file yag yu hiideg, yagaad oorchilsniig FACEVISION_CODE_GUIDE.md, FIXES_EXPLAINED.md, FPS_EXPLAINED.md-ees unshina.
 
-Ene 3 Python file-iig neg havtast bailgana. Odoo ashiglaj bgaa Python orchindoo Terminal deer:
+## Backup
 
-```bash
-python register.py
-python recognize.py
-```
-
-`>>>` Python prompt dotor ene command-uudiig bichihgui. Shine GUI san shaardahgui; customtkinter ene shinechlelted oroogui.
-
-## Yu shalgasn, yu anhaarah ve
-
-Python syntax, hurdan batalgaajuulalt, 2 dahi hun orj irhed omnoh neriig hadgalah, davhar ner, hotsorson hariu bolon Unknown-iin logikiig hiimel ogogdloor shalgasn. Bodit camera deer hurd, taniltiin nariivchlal hemjeegui.
-
-Neriig track deer hadgalah ni tur zuuryn savlagaag arilgana. Gehdee anh buruu tanisan bol ter neriig bas hadgalj bolno. Huree dagaj bgaa ni ter huniig dahin tanij batalgaajuulj bgaa gesen ug bish. Neg l Carlo haragdah durem ni anh tanigdsan hun yag Carlo mon gedgiig batalahgui. Tostei bolon burtgelgui humuuseer boditoor turshih heregtei.
-
-
-## Daraagiin shinechlelt: Minimal app, dataset bolon FPS
-
-- register.py, recognize.py, minimal app neg DATASET tohirgoo ashigladag bolson.
-- Bogino nuur tasaldliig huleeh, tanigdsan neriig haaya dahin batalgaajuulah zasvar orson.
-- Camera bolon MediaPipe ilruulelt tusdaa thread deer ajillana. UI zuvhun suuliin belen frame-iig avna.
-- LIVE-iin hajuud bodit display FPS haruulna.
-- FACEVISION.spec ni minimal app-iig model/dependency-tei ni macOS app bolgoj build hiine.
-- Daraagiin zasvaraar huuchin facevision.py-g minimal app-iin ehluulegch bolgoj solison. main.py-g heveer uldeesen.
-
-Delgerengui tailbar: [FIXES_EXPLAINED.md](FIXES_EXPLAINED.md), [FPS_EXPLAINED.md](FPS_EXPLAINED.md).
-
-Minimal app-iig ajilluulah:
-
-```bash
-python facevision_light_minimal.py
-```
-
-Test:
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-Mac app build hiih:
-
-```bash
-python -m PyInstaller --noconfirm FACEVISION.spec
-```
-
-Build-iin omno Facenet-iig neg udaa ajilluulj ~/.deepface/weights/facenet_weights.onnx model-iig belen bolgono. .app, venv, dataset, model-iin tom file-uudiig GitHub ruu oruulaagui.
-
-
-## Huuchin facevision.py-g minimal-aar solison
-
-Odoo `python facevision.py` shine minimal app-iig neene. Undsen code facevision_light_minimal.py dotor neg gazar baina; facevision.py ni ter App-iig ashiglana. README.md dotor buh saijruulalt, yagaad hiisen, yaj ajilluulah, file buriin uureg bolon shalgaltuudiig latin Mongoloor tailbarlasan.
+Solihyn omnoh commit: 01b49f7.
+Backup branch: backup/before-local-restore-20261117-01b49f7.
+History-g force push hiigeegui. Hereglegchiin dataset, irts, Excel/JSON file-uud ruu handaj ustgaagui. Built .app, model weights, venv-iig push hiigeegui.

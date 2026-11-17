@@ -1,18 +1,7 @@
-.venv/
 venv/
+.venv/
+dataset/
 __pycache__/
-*.pyc
+.DS_Store
 build/
 dist/
-*.spec
-.DS_Store
-# Never upload face images or identifiable attendance/biometric vectors.
-dataset/
-deleted_students/
-attendance.xlsx
-attendance_pending*.xlsx
-attendance_data.json
-face_embeddings_cache.json
-*.h5
-*.onnx
-*.keras

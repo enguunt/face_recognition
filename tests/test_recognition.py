@@ -93,6 +93,7 @@ class RecognitionTests(unittest.TestCase):
         app = App.__new__(App)
         app.q=queue.Queue(); app.root=Root(); app.status=Value(); app.metrics=FrameMetrics()
         app.mode='recognize'; app.running=True; app.session=1
+        app.record_attendance=lambda: None
         app.tracker=MultiFaceTracker()
         app.close_camera=lambda: self.fail('Camera must stay open')
         carlo=self.confirm(app.tracker)
@@ -164,10 +165,6 @@ class RecognitionTests(unittest.TestCase):
         tracker.update([],.1)
         tracker.apply([(person.id,'Carlo')],0,.1)
         self.assertIsNone(person.result_time)
-
-    def test_legacy_entry_point_opens_the_same_minimal_app(self):
-        import facevision
-        self.assertIs(facevision.App, App)
 
     def test_all_entry_points_use_shared_dataset(self):
         import ast
