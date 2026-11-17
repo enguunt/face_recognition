@@ -10,7 +10,7 @@ face_detector = mp_face.FaceDetection(
     min_detection_confidence=0.5
 )
 
-cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 if not cap.isOpened():
     print("Камер нээгдсэнгүй!")

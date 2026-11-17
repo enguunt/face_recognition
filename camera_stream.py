@@ -28,10 +28,33 @@ class CameraStream:
 
     @staticmethod
     def _open_capture():
-        capture = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
+        import platform
+
+        system = platform.system()
+        if system == "Windows":
+            backend = cv2.CAP_DSHOW
+        elif system == "Darwin":
+            backend = cv2.CAP_AVFOUNDATION
+        else:
+            backend = cv2.CAP_ANY
+
+        capture = cv2.VideoCapture(0, backend)
+
+        if not capture.isOpened():
+            capture.release()
+            capture = cv2.VideoCapture(0)
+
+        if not capture.isOpened():
+            capture.release()
+            raise RuntimeError(
+                "Камер нээгдсэнгүй. Камерын зөвшөөрлийг шалгана уу."
+            )
+
         capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
         return capture
+
 
     @staticmethod
     def _open_detector():

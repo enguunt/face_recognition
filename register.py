@@ -70,7 +70,7 @@ def check_quality(image):
     return True, "Good quality"
 
 
-cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 if not cap.isOpened():
     print("camera neegdsngu!")
