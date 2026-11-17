@@ -54,7 +54,7 @@ Neriig track deer hadgalah ni tur zuuryn savlagaag arilgana. Gehdee anh buruu ta
 - Camera bolon MediaPipe ilruulelt tusdaa thread deer ajillana. UI zuvhun suuliin belen frame-iig avna.
 - LIVE-iin hajuud bodit display FPS haruulna.
 - FACEVISION.spec ni minimal app-iig model/dependency-tei ni macOS app bolgoj build hiine.
-- Omno repo-d baisan facevision.py bolon main.py-g ene shinechlelteer oorchloogui.
+- Daraagiin zasvaraar huuchin facevision.py-g minimal app-iin ehluulegch bolgoj solison. main.py-g heveer uldeesen.
 
 Delgerengui tailbar: [FIXES_EXPLAINED.md](FIXES_EXPLAINED.md), [FPS_EXPLAINED.md](FPS_EXPLAINED.md).
 
@@ -77,3 +77,8 @@ python -m PyInstaller --noconfirm FACEVISION.spec
 ```
 
 Build-iin omno Facenet-iig neg udaa ajilluulj ~/.deepface/weights/facenet_weights.onnx model-iig belen bolgono. .app, venv, dataset, model-iin tom file-uudiig GitHub ruu oruulaagui.
+
+
+## Huuchin facevision.py-g minimal-aar solison
+
+Odoo `python facevision.py` shine minimal app-iig neene. Undsen code facevision_light_minimal.py dotor neg gazar baina; facevision.py ni ter App-iig ashiglana. README.md dotor buh saijruulalt, yagaad hiisen, yaj ajilluulah, file buriin uureg bolon shalgaltuudiig latin Mongoloor tailbarlasan.

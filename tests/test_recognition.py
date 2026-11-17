@@ -165,6 +165,10 @@ class RecognitionTests(unittest.TestCase):
         tracker.apply([(person.id,'Carlo')],0,.1)
         self.assertIsNone(person.result_time)
 
+    def test_legacy_entry_point_opens_the_same_minimal_app(self):
+        import facevision
+        self.assertIs(facevision.App, App)
+
     def test_all_entry_points_use_shared_dataset(self):
         import ast
         from pathlib import Path
